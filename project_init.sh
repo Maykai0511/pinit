@@ -58,7 +58,7 @@ Run:
 	@echo ""
 	@\$(BIN_DIRS)/\$(OBJ) \$(ARGS)
 
-clean:
+.PHONY:clean:
 	@\$(RM) \$(OBJ_DIRS)/*.o
 	@echo "Clean Finish!"
 
