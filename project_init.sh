@@ -33,12 +33,18 @@ CFLAGES:=-c
 # 最终可执行文件名称
 OBJ:=${PROJECT_NAME}
 
+# 命令行参数变量，默认为空
+ARGS?=
+
+# 编译参数，默认为空
+LINK?=
+
 # 获取 当前路径下 .c 文件
 C_SOURCE:=\$(wildcard \$(SRC_DIRS)/*.c)
 # 将OBJS赋值，将 .c 文件存为 .o 文件
 OBJS:=\$(patsubst \$(SRC_DIRS)/%.c, %.o, \$(C_SOURCE))
 
-export CC CFLAGES OBJ OBJS PROJECT_PATH OBJ_DIRS SRC_DIRS BIN_DIRS
+export CC CFLAGES OBJ OBJS PROJECT_PATH OBJ_DIRS SRC_DIRS BIN_DIRS LINK
 
 ALL:Compile Run
 
@@ -50,7 +56,7 @@ Compile:
 Run:
 	@echo "Run \$(OBJ)..."
 	@echo ""
-	@\$(BIN_DIRS)/\$(OBJ)
+	@\$(BIN_DIRS)/\$(OBJ) \$(ARGS)
 
 clean:
 	@\$(RM) \$(OBJ_DIRS)/*.o
@@ -72,7 +78,18 @@ EOF
 cat <<EOF > obj/makefile
 # ./obj/makefile
 Link:\$(OBJS)
-	\$(CC) \$^ -o \$(OBJ)
+	\$(CC) \$^ -o \$(OBJ) \$(LINK)
 	mv \$(OBJ) \$(PROJECT_PATH)/\$(BIN_DIRS)/
 
+EOF
+
+# ./res/main.c
+cat <<EOF > src/main.c
+
+
+int main(int argc, char *argv[])
+{
+
+	return 0;
+}
 EOF
